@@ -6,211 +6,227 @@ import pandas as pd
 
 # NASA Mars News
 
-# URL of page to be scraped
-url = "https://www.redplanetscience.com/"
+def scrape_info():
 
-# browser = init_browser()
-executable_path = {'executable_path': ChromeDriverManager().install()}
-browser = Browser('chrome', **executable_path, headless=False)
+    # URL of page to be scraped
+    url = "https://www.redplanetscience.com/"
 
-# Launch browser
-browser.visit(url)
-html = browser.html
+    # browser = init_browser()
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
-print(soup.prettify())
+    # Launch browser
+    browser.visit(url)
+    html = browser.html
 
-# Extract news title
-results = soup.find_all('div', class_="content_title")
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-# Iterate through list to pull out text of the news titles
-news_title = []
+    # Extract news title
+    results = soup.find_all('div', class_="content_title")
 
-for title in results:
-    news_title.append(title.text)
+    # Iterate through list to pull out text of the news titles
+    news_title = []
 
-# Extract news paragraph text
-results = soup.find_all('div', class_='article_teaser_body')
+    for title in results:
+        news_title.append(title.text)
 
-# Iterate through list to pull out text of the news body
-news_p = []
+    # Extract news paragraph text
+    results = soup.find_all('div', class_='article_teaser_body')
 
-for p in results:
-    news_p.append(p.text)
-    
-# JPL Mars Space Mission
+    # Iterate through list to pull out text of the news body
+    news_p = []
 
-# Define the URL
-url = "https://spaceimages-mars.com"
+    for p in results:
+        news_p.append(p.text)
+        
+    # JPL Mars Space Mission
 
-# Launch browser
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://spaceimages-mars.com"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
-print(soup.prettify())
+    # Launch browser
+    browser.visit(url)
+    html = browser.html
 
-# Extract feature image data
-results = soup.find('img', class_="headerimage")
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-featured_image_url = results['src']
-featured_image_url = f'{url}/{featured_image_url}'
+    # Extract feature image data
+    results = soup.find('img', class_="headerimage")
 
-# Mars Facts
+    featured_image_url = results['src']
+    featured_image_url = f'{url}/{featured_image_url}'
 
-# Define the URL
-url = "https://galaxyfacts-mars.com"
+    # Mars Facts
 
-# Read the tables in the URL and import
-tables = pd.read_html(url)
+    # Define the URL
+    url = "https://galaxyfacts-mars.com"
 
-# Identify the table with the Mars information and clean-up.
-mars_table = tables[1]
-mars_table = mars_table.rename(columns={0:'Fact Title', 1:'Fact Value'})
+    # Read the tables in the URL and import
+    tables = pd.read_html(url)
 
-# Convert the table to HTML string
-mars_table_html = mars_table.to_html()
-mars_table_html = mars_table_html.replace('\n','')
+    # Identify the table with the Mars information and clean-up.
+    mars_table = tables[1]
+    mars_table = mars_table.rename(columns={0:'Fact Title', 1:'Fact Value'})
 
-# Mars Hemispheres
+    # Convert the table to HTML string
+    mars_table_html = mars_table.to_html()
+    mars_table_html = mars_table_html.replace('\n','')
 
-# Initiate list of dictionaries
-hemisphere_image_urls = []
+    # Mars Hemispheres
 
-# Cerberus Hemisphere
+    # Initiate list of dictionaries
+    hemisphere_image_urls = []
 
-# Define the URL
-url = "https://marshemispheres.com/cerberus.html"
+    # Cerberus Hemisphere
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/cerberus.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract title
-title = soup.find('h2', class_="title").text
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-# Define the URL
-url = "https://marshemispheres.com/cerberus.html"
+    # Extract title
+    title = soup.find('h2', class_="title").text
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/cerberus.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract feature image data
-hemisphere_image = soup.find('img', class_="wide-image")
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-img_url = hemisphere_image['src']
-img_url = f'https://marshemispheres.com/{img_url}'
+    # Extract feature image data
+    hemisphere_image = soup.find('img', class_="wide-image")
 
-# Append into a dictionary
-hemisphere_image_urls.append({"title":title, "img_url":img_url})
+    img_url = hemisphere_image['src']
+    img_url = f'https://marshemispheres.com/{img_url}'
 
-# Schiaparelli Hemisphere
+    # Append into a dictionary
+    hemisphere_image_urls.append({"title":title, "img_url":img_url})
 
-# Define the URL
-url = "https://marshemispheres.com/schiaparelli.html"
+    # Schiaparelli Hemisphere
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/schiaparelli.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract title
-title = soup.find('h2', class_="title").text
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-# Define the URL
-url = "https://marshemispheres.com/schiaparelli.html"
+    # Extract title
+    title = soup.find('h2', class_="title").text
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/schiaparelli.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract feature image data
-hemisphere_image = soup.find('img', class_="wide-image")
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-img_url = hemisphere_image['src']
-img_url = f'https://marshemispheres.com/{img_url}'
+    # Extract feature image data
+    hemisphere_image = soup.find('img', class_="wide-image")
 
-# Append into a dictionary
-hemisphere_image_urls.append({"title":title, "img_url":img_url})
+    img_url = hemisphere_image['src']
+    img_url = f'https://marshemispheres.com/{img_url}'
 
-# Syrtis Hemisphere
+    # Append into a dictionary
+    hemisphere_image_urls.append({"title":title, "img_url":img_url})
 
-# Define the URL
-url = "https://marshemispheres.com/syrtis.html"
+    # Syrtis Hemisphere
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/syrtis.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract title
-title = soup.find('h2', class_="title").text
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-# Define the URL
-url = "https://marshemispheres.com/syrtis.html"
+    # Extract title
+    title = soup.find('h2', class_="title").text
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/syrtis.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract feature image data
-hemisphere_image = soup.find('img', class_="wide-image")
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-img_url = hemisphere_image['src']
-img_url = f'https://marshemispheres.com/{img_url}'
+    # Extract feature image data
+    hemisphere_image = soup.find('img', class_="wide-image")
 
-# Append into a dictionary
-hemisphere_image_urls.append({"title":title, "img_url":img_url})
+    img_url = hemisphere_image['src']
+    img_url = f'https://marshemispheres.com/{img_url}'
 
-# Valles Hemisphere
+    # Append into a dictionary
+    hemisphere_image_urls.append({"title":title, "img_url":img_url})
 
-# Define the URL
-url = "https://marshemispheres.com/valles.html"
+    # Valles Hemisphere
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/valles.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract title
-title = soup.find('h2', class_="title").text
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-# Define the URL
-url = "https://marshemispheres.com/valles.html"
+    # Extract title
+    title = soup.find('h2', class_="title").text
 
-# Visit URL
-browser.visit(url)
-html = browser.html
+    # Define the URL
+    url = "https://marshemispheres.com/valles.html"
 
-# Create BeautifulSoup object, parse with 'html.parser'
-soup = bs(html, 'html.parser')
+    # Visit URL
+    browser.visit(url)
+    html = browser.html
 
-# Extract feature image data
-hemisphere_image = soup.find('img', class_="wide-image")
+    # Create BeautifulSoup object, parse with 'html.parser'
+    soup = bs(html, 'html.parser')
 
-img_url = hemisphere_image['src']
-img_url = f'https://marshemispheres.com/{img_url}'
+    # Extract feature image data
+    hemisphere_image = soup.find('img', class_="wide-image")
 
-# Append into a dictionary
-hemisphere_image_urls.append({"title":title, "img_url":img_url})
+    img_url = hemisphere_image['src']
+    img_url = f'https://marshemispheres.com/{img_url}'
+
+    # Append into a dictionary
+    hemisphere_image_urls.append({"title":title, "img_url":img_url})
+
+    # Close the browser after scraping
+    browser.quit()
+
+    mars_dict = {
+        "news_title": news_title, 
+        "news_p": news_p, 
+        "featured_image_url": featured_image_url, 
+        "mars_table_html": mars_table_html, 
+        "hemisphere_image_urls": hemisphere_image_urls
+        }
+
+    # Return results
+    return mars_dict
+
+
