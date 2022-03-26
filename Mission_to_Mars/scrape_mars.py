@@ -74,6 +74,10 @@ def scrape_info():
     mars_table_html = mars_table.to_html()
     mars_table_html = mars_table_html.replace('\n','')
 
+    # Convert table to HTML file
+    table_file = "facts_table.html"
+    mars_table.to_html(table_file)
+
     # Mars Hemispheres
 
     # Initiate list of dictionaries
@@ -220,9 +224,10 @@ def scrape_info():
 
     mars_dict = {
         "news_title": news_title, 
-        "news_p": news_p, 
+        "news_p": news_p,
         "featured_image_url": featured_image_url, 
         "mars_table_html": mars_table_html, 
+        "mars_table_file": table_file,
         "hemisphere_image_urls": hemisphere_image_urls
         }
 

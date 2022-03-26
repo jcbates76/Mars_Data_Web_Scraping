@@ -10,28 +10,32 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="jumbotron text-center">
-      <h1>Mission to Mars</h1>
-      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
-    </div>
-    <h2>Latest Mars News</h2>
-    {% for elt in mars %}
-    <h3>News Title: {{ elt['news_title'] }}</h3>
-    <h3>News Paragraph: {{ elt['news_p'] }}</h3>
-    <!-- <img src="{{ elt['imgsrc'] }}"> -->
-    <hr/>
-    {% endfor %}
-    <!-- <h2>Featued Image</h2>
-    <h3>Featured Image: {{ mars['featured_image_url'] }}</h3>
-    <hr/>
-    <h2>Mars Table</h2>
-    <h3>Mars Table: {{ mars['mars_table_html'] }}</h3>
-    <hr/>
-    <h2>Hemisphere Images</h2>
-    <h3>Hemisphere Images: {{ mars['hemisphere_image_urls'] }}</h3>
-    <hr/> -->
-
+    <div class="container-fluid">
+        <div class="jumbotron text-center">
+            <h1>Mission to Mars</h1>
+            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+        </div>
+        <h2>Latest Mars News</h2>
+        {% for i in mars.news_title %}
+            {% set item_1 = mars.news_title[loop.index-1] %}
+            {% set item_2 = mars.news_p[loop.index-1] %}
+            <ul>
+                <li>{{ item_1 }}</li>
+                <li>{{ item_2 }}</li>
+            </ul>
+        {% endfor %}
+        <hr/>
+        <h2>Featured Image</h2>
+        <img src="{{ mars['featured_image_url'] }}">
+        <hr/>
+        <h2>Mars Table</h2>
+        {{ mars['mars_table_html'] | safe }}
+        <hr/>
+        <h2>Hemisphere Images</h2>
+        {% for dict in mars['hemisphere_image_urls'] %}
+            <img src={{ dict['img_url'] }} width="200px" height="200px"> {{ dict['title'] }}
+        {% endfor %}
+        <hr/>
 
   </div>
 </body>
