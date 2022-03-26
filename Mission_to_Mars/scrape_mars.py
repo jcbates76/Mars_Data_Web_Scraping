@@ -23,22 +23,16 @@ def scrape_info():
     soup = bs(html, 'html.parser')
 
     # Extract news title
-    results = soup.find_all('div', class_="content_title")
+    results = soup.find('div', class_="content_title")
 
-    # Iterate through list to pull out text of the news titles
-    news_title = []
-
-    for title in results:
-        news_title.append(title.text)
+    # Assign news title to variable
+    news_title = results.text
 
     # Extract news paragraph text
-    results = soup.find_all('div', class_='article_teaser_body')
+    results = soup.find('div', class_='article_teaser_body')
 
-    # Iterate through list to pull out text of the news body
-    news_p = []
-
-    for p in results:
-        news_p.append(p.text)
+    # Assign news paragraph to variable
+    news_p = results.text
         
     # JPL Mars Space Mission
 
@@ -71,7 +65,7 @@ def scrape_info():
     mars_table = mars_table.rename(columns={0:'Fact Title', 1:'Fact Value'})
 
     # Convert the table to HTML string
-    mars_table_html = mars_table.to_html()
+    mars_table_html = mars_table.to_html(index=False)
     mars_table_html = mars_table_html.replace('\n','')
 
     # Convert table to HTML file
