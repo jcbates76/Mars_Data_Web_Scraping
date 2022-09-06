@@ -1,4 +1,4 @@
-# web-scraping-challenge
+# Mars_Data_Web_Scraping
 ## Mission to Mars Project
 This project utilizes web scraping to collect various forms of information on the Nasa Mars project, and displays that information on an HTML template utilizing a Flask Application.   
 
